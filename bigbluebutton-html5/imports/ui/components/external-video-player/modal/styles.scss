@@ -32,7 +32,7 @@
 .modal {
   @extend .modal;
   padding: 1.5rem;
-  min-height: 23rem;
+  min-height: 30rem;
 }
 
 .closeBtn {
@@ -44,20 +44,20 @@
   }
 
   &:focus,
-  &:hover{
+  &:hover {
     background-color: var(--color-gray-lighter);
-    i{
+    i {
       color: var(--color-gray);
     }
   }
 }
-.warning{
+.warning {
   text-align: center;
   font-weight: var(--headings-font-weight);
   font-size: 5rem;
   white-space: normal;
 }
-.text{
+.text {
   margin: var(--line-height-computed);
   text-align: center;
 }
@@ -75,7 +75,7 @@
     outline: none !important;
   }
 
-  i{
+  i {
     color: #3c5764;
   }
 
@@ -83,7 +83,7 @@
   width: 40%;
   display: block;
   position: absolute;
-  bottom:   20px;
+  bottom: 20px;
   color: var(--color-white) !important;
   background-color: var(--color-link) !important;
 }
@@ -121,7 +121,7 @@
     border-radius: var(--border-radius);
 
     :global(.animationsEnabled) & {
-      transition: box-shadow .2s;
+      transition: box-shadow 0.2s;
     }
   }
 
@@ -144,4 +144,9 @@
   font-size: var(--font-size-small);
   font-style: italic;
   padding-top: var(--sm-padding-y);
+}
+
+.video-uploader {
+  width: 100%;
+  min-height: 1em;
 }

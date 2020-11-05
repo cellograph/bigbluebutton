@@ -3,7 +3,10 @@ import { withModalMounter } from '/imports/ui/components/modal/service';
 import Modal from '/imports/ui/components/modal/simple/component';
 import Button from '/imports/ui/components/button/component';
 
+//
 import { defineMessages, injectIntl } from 'react-intl';
+import VideoUploader from './VideoUploader';
+
 import { isUrlValid } from '../service';
 
 import { styles } from './styles';
@@ -54,6 +57,7 @@ class ExternalVideoModal extends Component {
     this.updateVideoUrlHandler = this.updateVideoUrlHandler.bind(this);
     this.renderUrlError = this.renderUrlError.bind(this);
     this.updateVideoUrlHandler = this.updateVideoUrlHandler.bind(this);
+    this.shareExternal = this.shareExternal.bind(this);
   }
 
   startWatchingHandler() {
@@ -63,6 +67,16 @@ class ExternalVideoModal extends Component {
     } = this.props;
 
     const { url } = this.state;
+
+    startWatching(url.trim());
+    closeModal();
+  }
+
+  shareExternal(url) {
+    const {
+      startWatching,
+      closeModal,
+    } = this.props;
 
     startWatching(url.trim());
     closeModal();
@@ -106,6 +120,11 @@ class ExternalVideoModal extends Component {
         <header data-test="videoModealHeader" className={styles.header}>
           <h3 className={styles.title}>{intl.formatMessage(intlMessages.title)}</h3>
         </header>
+        {/* Video Upload */}
+        <VideoUploader shareExternal={this.shareExternal} />
+        {/* video upload end */}
+
+        <hr />
 
         <div className={styles.content}>
           <div className={styles.videoUrl}>
