@@ -58,10 +58,10 @@ const VideoUploaderTag = styled.form`
 
 function VideoUploader(props) {
   const [file, setFile] = useState(null);
-  const [percent, setPercent] = useState(null);
-  const [url, setUrl] = useState(null);
-  const [isUploading, setIsUploading] = useState(null);
-  const [fileName, setFileName] = useState(null);
+  const [percent, setPercent] = useState(0);
+  const [url, setUrl] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [fileName, setFileName] = useState('');
 
 
   const onFormSubmit = (e) => {
@@ -108,9 +108,7 @@ function VideoUploader(props) {
       <form onSubmit={onFormSubmit} className="video-uploader-form">
         {isUploading && (
         <div className="upload-progress">
-Upload:
-          {percent}
-% Completed
+            {`Upload: ${percent}% Completed`}
         </div>
         ) }
         {percent === 0 && <input onChange={onChangeHandler} type="file" name="external-video" id="external-video" />}
