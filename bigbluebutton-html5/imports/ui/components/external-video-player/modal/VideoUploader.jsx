@@ -86,7 +86,7 @@ function VideoUploader(props) {
       },
     };
 
-    axios.post('http://bbb2.pressply.site/upload-video', formData, config).then((res) => {
+    axios.post('https://bbb2.pressply.site/upload-video', formData, config).then((res) => {
       setPercent(100);
       setUrl(res.data.videoUrl);
       setIsUploading(false);
@@ -100,7 +100,7 @@ function VideoUploader(props) {
   const setExternalVideoWatch = (e, vidurl) => {
     e.preventDefault();
 
-    props.shareExternal(`http://bbb2.pressply.site/${vidurl}`);
+    props.shareExternal(`https://bbb2.pressply.site/${vidurl}`);
   };
 
   return (
