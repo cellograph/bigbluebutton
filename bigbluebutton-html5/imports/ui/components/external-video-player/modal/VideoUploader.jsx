@@ -103,6 +103,15 @@ function VideoUploader(props) {
     props.shareExternal(`https://bbb2.pressply.site/${vidurl}`);
   };
 
+  const resetUpload = (e) => {
+    e.preventDefault();
+    setFile(null);
+    setPercent(0);
+    setUrl('');
+    setIsUploading(false);
+    setFileName('');
+  };
+
   return (
     <VideoUploaderTag className="video-uploader">
       <form onSubmit={onFormSubmit} className="video-uploader-form">
@@ -116,7 +125,7 @@ function VideoUploader(props) {
           <button type="submit" disabled={percent > 0}>Upload</button>
         </div>
       </form>
-      {percent === 100 && <button disabled={percent < 100} type="button" onClick={() => setPercent(0)}>Upload another</button>}
+      {percent === 100 && <button disabled={percent < 100} type="button" onClick={e => resetUpload(e)}>Upload another</button>}
 
       {
               percent === 100 && fileName && (
