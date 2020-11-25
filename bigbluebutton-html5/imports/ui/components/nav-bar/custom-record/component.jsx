@@ -54,7 +54,7 @@ function ScreenRecorderApp(props) {
   const handleStopRecord = (e) => {
     stopRecording();
     setUrl("done");
-    console.log(URL.createObjectURL(new Blob(mediaBlob)));
+    console.log(URL.createObjectURL(mediaBlob));
   };
 
   return (
@@ -76,7 +76,7 @@ function ScreenRecorderApp(props) {
           Stop recording
         </button>
       </section>
-      {/* <Player srcBlob={mediaBlob} /> */}
+      <Player srcBlob={mediaBlob} />
     </div>
   );
 }
