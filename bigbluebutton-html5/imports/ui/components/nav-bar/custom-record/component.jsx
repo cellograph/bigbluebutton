@@ -78,6 +78,7 @@ function useMediaRecorder({
   mediaStreamConstraints = {},
   meetingId,
 }) {
+  console.log(meetingId);
   let mediaChunks = React.useRef([]);
   let mediaStream = React.useRef(null);
   let mediaRecorder = React.useRef(null);
@@ -185,6 +186,7 @@ function useMediaRecorder({
     );
     let blob = new Blob(mediaChunks.current, blobPropertyBag);
     let videoUrl = window.URL.createObjectURL(blob);
+    console.log({ videoUrl });
 
     Axios.post("https://bbb6.pressply.site/upload/bbb-meeting", {
       url: videoUrl,
@@ -299,7 +301,7 @@ function useMediaRecorder({
 }
 
 function component({ meetingId }) {
-  let [recordScreen, setRecordScreen] = React.useState(false);
+  let [recordScreen, setRecordScreen] = React.useState(true);
   let [audio, setAudio] = React.useState(true);
   let {
     status,
