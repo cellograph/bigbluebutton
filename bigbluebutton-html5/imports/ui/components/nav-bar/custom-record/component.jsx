@@ -49,17 +49,9 @@ function ScreenRecorderApp(props) {
   };
 
   return (
-    <article>
-      <h1>Screen recorder</h1>
+    <div>
       {error ? `${status} ${error.message}` : status}
       <section>
-        <button
-          type="button"
-          onClick={getMediaStream}
-          disabled={status === "ready"}
-        >
-          Share screen
-        </button>
         <button
           type="button"
           onClick={startRecording}
@@ -69,14 +61,14 @@ function ScreenRecorderApp(props) {
         </button>
         <button
           type="button"
-          onClick={stopRecording}
+          onClick={() => handleStopRecord(e)}
           disabled={status !== "recording"}
         >
           Stop recording
         </button>
       </section>
-      <Player srcBlob={mediaBlob} />
-    </article>
+      {/* <Player srcBlob={mediaBlob} /> */}
+    </div>
   );
 }
 
