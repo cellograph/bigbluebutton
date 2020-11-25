@@ -61,7 +61,7 @@ function ScreenRecorderApp(props) {
         </button>
         <button
           type="button"
-          onClick={() => handleStopRecord(e)}
+          onClick={(e) => handleStopRecord(e)}
           disabled={status !== "recording"}
         >
           Stop recording
