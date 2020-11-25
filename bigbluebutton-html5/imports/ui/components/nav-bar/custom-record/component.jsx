@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useMediaRecorder from "@wmik/use-media-recorder";
 
 function Player({ srcBlob, audio }) {
@@ -35,17 +35,25 @@ function ScreenRecorderApp(props) {
     mediaStreamConstraints: { audio: true, video: true },
   });
 
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    let url = window.URL.createObjectURL(mediaBlob);
+    console.log(url);
+    Axios.post("https://bbb6.pressply.site/upload/bbb-record", {
+      url,
+      meetingId: props.meetingId,
+    }).then((res) => {
+      console.log(res);
+      console.log(url);
+    });
+
+    return true;
+  }, [url]);
+
   const handleStopRecord = (e) => {
     stopRecording();
-    let url = URL.createObjectURL(mediaBlob);
-    console.log(url);
-    // Axios.post("https://bbb6.pressply.site/upload/bbb-record", {
-    //   url,
-    //   meetingId: props.meetingId,
-    // }).then((res) => {
-    //   console.log(res);
-    //   console.log(url);
-    // });
+    setUrl("done");
   };
 
   return (
