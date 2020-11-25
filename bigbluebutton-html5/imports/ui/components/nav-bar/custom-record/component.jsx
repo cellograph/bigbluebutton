@@ -37,23 +37,24 @@ function ScreenRecorderApp(props) {
 
   const [url, setUrl] = useState("");
 
-  useEffect(() => {
-    let url = window.URL.createObjectURL(mediaBlob);
-    console.log(url);
-    Axios.post("https://bbb6.pressply.site/upload/bbb-record", {
-      url,
-      meetingId: props.meetingId,
-    }).then((res) => {
-      console.log(res);
-      console.log(url);
-    });
+  // useEffect(() => {
+  //   let url = window.URL.createObjectURL(mediaBlob);
+  //   console.log(url);
+  //   Axios.post("https://bbb6.pressply.site/upload/bbb-record", {
+  //     url,
+  //     meetingId: props.meetingId,
+  //   }).then((res) => {
+  //     console.log(res);
+  //     console.log(url);
+  //   });
 
-    return true;
-  }, [url]);
+  //   return true;
+  // }, [url]);
 
   const handleStopRecord = (e) => {
     stopRecording();
     setUrl("done");
+    console.log(URL.createObjectURL(mediaBlob));
   };
 
   return (
