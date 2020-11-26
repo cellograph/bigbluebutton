@@ -28,7 +28,7 @@ export default CustomSpeechToTextCaption;
 export const CaptionButton = (props) => {
   const { transcript, resetTranscript } = useSpeechRecognition();
 
-  const [btnState, setBtnState] = useState(true);
+  const [btnState, setBtnState] = useState(false);
   const handleStartCaption = () => {
     console.log("Started");
     SpeechRecognition.startListening({ continuous: true });
@@ -43,22 +43,21 @@ export const CaptionButton = (props) => {
 
   return (
     <>
-      {!btnState && (
-        <button
-          style={{ cursor: "pointer" }}
-          onClick={() => handleStartCaption()}
-        >
-          CC Start
-        </button>
-      )}
-      {btnState && (
-        <button
-          style={{ cursor: "pointer" }}
-          onClick={() => handleStopCaption()}
-        >
-          CC Stop
-        </button>
-      )}
+      <button
+        style={{ cursor: "pointer" }}
+        onClick={() => handleStartCaption()}
+        disabled={btnState === true ? true : false}
+      >
+        CC Start
+      </button>
+
+      <button
+        disabled={btnState === false ? true : false}
+        style={{ cursor: "pointer" }}
+        onClick={() => handleStopCaption()}
+      >
+        CC Stop
+      </button>
     </>
   );
 };
