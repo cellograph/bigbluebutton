@@ -35,7 +35,10 @@ export const CaptionButton = (props) => {
     setBtnState(!btnState);
   };
   return (
-    <button style={{ cursor: "pointer" }} onClick={handleCaption}>
+    <button
+      style={{ cursor: "pointer" }}
+      onClick={SpeechRecognition.startListening({ continuous: true })}
+    >
       {transcript}
       || {btnState ? "cc" : "c"}
     </button>
