@@ -31,6 +31,7 @@ export const CaptionButton = (props) => {
   const [btnState, setBtnState] = useState(false);
   const handleCaption = () => {
     console.log("clicked");
+    SpeechRecognition.startListening({ continuous: true });
     setBtnState(!btnState);
   };
   return (
