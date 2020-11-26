@@ -25,7 +25,7 @@ import App from "./component";
 import NavBarContainer from "../nav-bar/container";
 import ActionsBarContainer from "../actions-bar/container";
 import MediaContainer from "../media/container";
-import CustomCaptionProvider from "../custom-context/CaptionContext";
+// import CustomCaptionProvider from "../custom-context/CaptionContext";
 import CustomSpeechToTextCaption from "../captions/speech-to-text/index";
 
 const propTypes = {
