@@ -10,12 +10,6 @@ function CustomSpeechToTextCaption(props) {
     return null;
   }
 
-  useEffect(() => {
-    if (transcript.length > 20) {
-      resetTranscript();
-    }
-  }, [transcript]);
-
   return (
     <>
       <>{transcript}</>
