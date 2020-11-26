@@ -36,17 +36,14 @@ export const CaptionButton = (props) => {
   };
   return (
     <>
-      <button
-        style={{ cursor: "pointer" }}
-        onClick={() => SpeechRecognition.startListening({ continuous: true })}
-      >
-        Start
+      <button style={{ cursor: "pointer" }} onClick={() => handleCaption()}>
+        CC Start
       </button>
       <button
         style={{ cursor: "pointer" }}
         onClick={() => SpeechRecognition.stopListening()}
       >
-        Stop
+        CC Stop
       </button>
     </>
   );
