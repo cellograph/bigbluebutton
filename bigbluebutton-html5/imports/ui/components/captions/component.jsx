@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CaptionsService from "./service";
+import CustomSpeechToTextCaption from "../captions/speech-to-text/index";
 
 const CAPTIONS_CONFIG = Meteor.settings.public.captions;
 
