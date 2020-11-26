@@ -34,7 +34,7 @@ export const CaptionButton = (props) => {
       SpeechRecognition.stopListening();
       resetTranscript();
     } else {
-      SpeechRecognition.startListening({ continuous });
+      SpeechRecognition.startListening({ continuous: true });
     }
 
     setBtnState(!btnState);
