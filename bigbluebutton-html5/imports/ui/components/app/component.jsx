@@ -221,6 +221,18 @@ class App extends Component {
     );
   }
 
+  // renderNavBar() {
+  //   const { navbar } = this.props;
+
+  //   if (!navbar) return null;
+
+  //   return (
+  //     <header className={styles.navbar}>
+  //       {navbar}
+  //     </header>
+  //   );
+  // }
+
   renderNavBar() {
     const { navbar } = this.props;
 
