@@ -39,8 +39,7 @@ export const CaptionButton = (props) => {
       style={{ cursor: "pointer" }}
       onClick={SpeechRecognition.startListening({ continuous: true })}
     >
-      {transcript}
-      || {btnState ? "cc" : "c"}
+      Start
     </button>
   );
 };
