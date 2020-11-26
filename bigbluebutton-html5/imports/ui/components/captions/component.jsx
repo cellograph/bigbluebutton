@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CaptionsService from './service';
+import React from "react";
+import PropTypes from "prop-types";
+import CaptionsService from "./service";
 
 const CAPTIONS_CONFIG = Meteor.settings.public.captions;
 
@@ -8,8 +8,8 @@ class Captions extends React.Component {
   constructor(props) {
     super(props);
     this.state = { initial: true };
-    this.text = '';
-    this.ariaText = '';
+    this.text = "";
+    this.ariaText = "";
     this.timer = null;
     this.settings = CaptionsService.getCaptionsSettings();
 
@@ -22,10 +22,7 @@ class Captions extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {
-      padId,
-      revs,
-    } = this.props;
+    const { padId, revs } = this.props;
 
     if (padId === nextProps.padId) {
       if (revs === nextProps.revs && !nextState.clear) return false;
@@ -43,7 +40,9 @@ class Captions extends React.Component {
       this.setState({ clear: false });
     } else {
       this.resetTimer();
-      this.timer = setTimeout(() => { this.setState({ clear: true }); }, CAPTIONS_CONFIG.time);
+      this.timer = setTimeout(() => {
+        this.setState({ clear: true });
+      }, CAPTIONS_CONFIG.time);
     }
   }
 
@@ -54,8 +53,8 @@ class Captions extends React.Component {
   updateText(data) {
     const { clear } = this.state;
     if (clear) {
-      this.text = '';
-      this.ariaText = '';
+      this.text = "";
+      this.ariaText = "";
     } else {
       this.ariaText = CaptionsService.formatCaptionsText(data);
       const text = this.text + data;
@@ -73,20 +72,15 @@ class Captions extends React.Component {
   render() {
     const { data } = this.props;
     const { initial } = this.state;
-    const {
-      fontFamily,
-      fontSize,
-      fontColor,
-      backgroundColor,
-    } = this.settings;
+    const { fontFamily, fontSize, fontColor, backgroundColor } = this.settings;
 
     if (!initial) {
       this.updateText(data);
     }
 
     const captionStyles = {
-      whiteSpace: 'pre-wrap',
-      wordWrap: 'break-word',
+      whiteSpace: "pre-wrap",
+      wordWrap: "break-word",
       fontFamily,
       fontSize,
       background: backgroundColor,
@@ -94,26 +88,22 @@ class Captions extends React.Component {
     };
 
     const visuallyHidden = {
-      position: 'absolute',
-      overflow: 'hidden',
-      clip: 'rect(0 0 0 0)',
-      height: '1px',
-      width: '1px',
-      margin: '-1px',
-      padding: '0',
-      border: '0',
+      position: "absolute",
+      overflow: "hidden",
+      clip: "rect(0 0 0 0)",
+      height: "1px",
+      width: "1px",
+      margin: "-1px",
+      padding: "0",
+      border: "0",
     };
 
     return (
       <div>
         <div style={captionStyles}>
-          {this.text}
+          {this.text ? this.text : <CustomSpeechToTextCaption />}
         </div>
-        <div
-          style={visuallyHidden}
-          aria-atomic
-          aria-live="polite"
-        >
+        <div style={visuallyHidden} aria-atomic aria-live="polite">
           {this.ariaText}
         </div>
       </div>
