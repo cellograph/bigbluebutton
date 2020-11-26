@@ -36,8 +36,8 @@ export const CaptionButton = (props) => {
     } else {
       SpeechRecognition.startListening({ continuous: true });
     }
-
+    console.log(transcript);
     setBtnState(!btnState);
   };
-  return <button onClick={handleCaption}>C</button>;
+  return <button onClick={handleCaption}>{transcript || C}</button>;
 };
