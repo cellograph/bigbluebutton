@@ -132,9 +132,9 @@ export default injectIntl(
 
       return {
         captions: CaptionsService.isCaptionsActive() ? (
-          <CaptionsContainer style={{ left: "8%", right: "8%" }} />
+          <CaptionsContainer />
         ) : (
-          <CaptionsContainer style={{ left: "8%", right: "8%" }} />
+          <CaptionsContainer />
         ),
         fontSize: getFontSize(),
         hasBreakoutRooms: getBreakoutRooms().length > 0,

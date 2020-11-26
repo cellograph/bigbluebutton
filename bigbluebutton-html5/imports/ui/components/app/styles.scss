@@ -2,12 +2,14 @@
 @import "/imports/ui/stylesheets/variables/general";
 @import "/imports/ui/stylesheets/variables/palette";
 @import "/imports/ui/stylesheets/variables/typography";
-@import '/imports/ui/stylesheets/mixins/_indicators';
+@import "/imports/ui/stylesheets/mixins/_indicators";
 
 :root {
   --navbar-height: 3.9375rem; // TODO: Change to NavBar real height
   --actionsbar-height: 75px; // TODO: Change to ActionsBar real height
-  --bars-padding: calc(var(--lg-padding-x) - .45rem); // -.45 so user-list and chat title is aligned with the presentation title
+  --bars-padding: calc(
+    var(--lg-padding-x) - 0.45rem
+  ); // -.45 so user-list and chat title is aligned with the presentation title
   --userlist-handle-width: 5px; // 5px so user-list and chat resize handle render as the same size
   --poll-pane-min-width: 20em;
   --panel-margin-left: 0.1em;
@@ -60,13 +62,14 @@
   }
 }
 
-.content, .noPanelContent {
+.content,
+.noPanelContent {
   @extend %full-page;
   order: 3;
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     display: block;
     width: 100%;
@@ -75,18 +78,26 @@
     pointer-events: none;
 
     :global(.animationsEnabled) & {
-      transition: opacity .3s;
+      transition: opacity 0.3s;
     }
   }
 
   &:before {
     top: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, .45) -20%, transparent 20%);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) -20%,
+      transparent 20%
+    );
   }
 
   &:after {
     bottom: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, .45) -20%, transparent 20%);
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.45) -20%,
+      transparent 20%
+    );
   }
 
   @include mq($medium-up) {
@@ -95,11 +106,11 @@
   }
 }
 
-.content{
-  margin:0 0 0 var(--panel-margin-left);
+.content {
+  margin: 0 0 0 var(--panel-margin-left);
 
   [dir="rtl"] & {
-    margin:0 var(--panel-margin-left) 0 0;
+    margin: 0 var(--panel-margin-left) 0 0;
   }
 }
 
@@ -214,7 +225,8 @@
   width: auto;
   height: auto;
   bottom: 100px;
-  left: 20%;
+  left: 8%;
+  right: 8%;
   z-index: 2;
 }
 
