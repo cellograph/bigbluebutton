@@ -114,11 +114,11 @@ class NavBar extends PureComponent {
           <div className={styles.center}>
             <h1 className={styles.presentationTitle}>{presentationTitle}</h1>
 
-            {/* <RecordingIndicator
+            <RecordingIndicator
               mountModal={mountModal}
               amIModerator={amIModerator}
-            /> */}
-            <CustomRecorder meetingId={meetingId} />
+            />
+            {/* <CustomRecorder meetingId={meetingId} /> */}
           </div>
           <div className={styles.right}>
             <SettingsDropdownContainer amIModerator={amIModerator} />

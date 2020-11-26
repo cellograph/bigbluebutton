@@ -11,7 +11,7 @@ function CustomSpeechToTextCaption(props) {
   }
 
   useEffect(() => {
-    if (transcript.length > 250) {
+    if (transcript.length > 200) {
       resetTranscript();
     }
   }, [transcript]);
@@ -28,23 +28,37 @@ export default CustomSpeechToTextCaption;
 export const CaptionButton = (props) => {
   const { transcript, resetTranscript } = useSpeechRecognition();
 
-  const [btnState, setBtnState] = useState(false);
-  const handleCaption = () => {
-    console.log("clicked");
+  const [btnState, setBtnState] = useState(true);
+  const handleStartCaption = () => {
+    console.log("Started");
     SpeechRecognition.startListening({ continuous: true });
     setBtnState(!btnState);
   };
+
+  const handleStopCaption = () => {
+    console.log("Stopped");
+    SpeechRecognition.stopListening();
+    setBtnState(!btnState);
+  };
+
   return (
     <>
-      <button style={{ cursor: "pointer" }} onClick={() => handleCaption()}>
-        CC Start
-      </button>
-      <button
-        style={{ cursor: "pointer" }}
-        onClick={() => SpeechRecognition.stopListening()}
-      >
-        CC Stop
-      </button>
+      {!btnState && (
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={() => handleStartCaption()}
+        >
+          CC Start
+        </button>
+      )}
+      {btnState && (
+        <button
+          style={{ cursor: "pointer" }}
+          onClick={() => handleStopCaption()}
+        >
+          CC Stop
+        </button>
+      )}
     </>
   );
 };
