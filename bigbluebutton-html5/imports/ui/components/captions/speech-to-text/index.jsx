@@ -39,5 +39,5 @@ export const CaptionButton = (props) => {
     console.log(transcript);
     setBtnState(!btnState);
   };
-  return <button onClick={handleCaption}>{transcript || C}</button>;
+  return <button onClick={handleCaption}>{transcript || "C"}</button>;
 };
