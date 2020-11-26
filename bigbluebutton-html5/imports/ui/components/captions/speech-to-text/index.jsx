@@ -10,6 +10,12 @@ function CustomSpeechToTextCaption(props) {
     return null;
   }
 
+  useEffect(() => {
+    if (transcript.length > 300) {
+      resetTranscript();
+    }
+  }, [transcript]);
+
   return (
     <>
       <>{transcript}</>
@@ -31,7 +37,7 @@ export const CaptionButton = (props) => {
   return (
     <button
       style={{ cursor: "pointer" }}
-      onClick={SpeechRecognition.startListening({ continuous: true })}
+      onClick={() => SpeechRecognition.startListening({ continuous: true })}
     >
       Start
     </button>
