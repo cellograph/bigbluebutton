@@ -81,6 +81,7 @@ class WriterMenu extends PureComponent {
     const { locale } = this.state;
 
     takeOwnership(locale);
+    // Session.set('captionsLocale', locale);
     Session.set('captionsLocale', locale);
     Session.set('openPanel', 'captions');
 

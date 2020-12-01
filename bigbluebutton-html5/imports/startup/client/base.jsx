@@ -54,10 +54,12 @@ const fullscreenChangedEvents = [
 
 class Base extends Component {
   static handleFullscreenChange() {
-    if (document.fullscreenElement
-      || document.webkitFullscreenElement
-      || document.mozFullScreenElement
-      || document.msFullscreenElement) {
+    if (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    ) {
       Session.set('isFullscreen', true);
     } else {
       Session.set('isFullscreen', false);
@@ -76,6 +78,8 @@ class Base extends Component {
 
   componentDidMount() {
     const { animations } = this.props;
+    // ! Celll Try check Global Session Object
+    console.log({ Session });
 
     if (animations) HTML.classList.add('animationsEnabled');
     if (!animations) HTML.classList.add('animationsDisabled');
@@ -95,13 +99,13 @@ class Base extends Component {
       isMeteorConnected,
       subscriptionsReady,
     } = this.props;
-    const {
-      loading,
-      meetingExisted,
-    } = this.state;
+    const { loading, meetingExisted } = this.state;
 
     if (!prevProps.subscriptionsReady && subscriptionsReady) {
-      logger.info({ logCode: 'startup_client_subscriptions_ready' }, 'Subscriptions are ready');
+      logger.info(
+        { logCode: 'startup_client_subscriptions_ready' },
+        'Subscriptions are ready'
+      );
     }
 
     if (prevProps.meetingExist && !meetingExist && !meetingExisted) {
@@ -109,14 +113,19 @@ class Base extends Component {
     }
 
     // In case the meteor restart avoid error log
-    if (isMeteorConnected && (prevState.meetingExisted !== meetingExisted) && meetingExisted) {
+    if (
+      isMeteorConnected &&
+      prevState.meetingExisted !== meetingExisted &&
+      meetingExisted
+    ) {
       this.setMeetingExisted(false);
     }
 
     // In case the meeting delayed to load
     if (!subscriptionsReady || !meetingExist) return;
 
-    if (approved && loading && subscriptionsReady) this.updateLoadingState(false);
+    if (approved && loading && subscriptionsReady)
+      this.updateLoadingState(false);
 
     if (prevProps.ejected || ejected) {
       Session.set('codeError', '403');
@@ -124,7 +133,7 @@ class Base extends Component {
     }
 
     // In case the meteor restart avoid error log
-    if (isMeteorConnected && (prevState.meetingExisted !== meetingExisted)) {
+    if (isMeteorConnected && prevState.meetingExisted !== meetingExisted) {
       this.setMeetingExisted(false);
     }
 
@@ -171,11 +180,11 @@ class Base extends Component {
     } = this.props;
 
     if ((loading || !subscriptionsReady) && !meetingHasEnded && meetingExist) {
-      return (<LoadingScreen>{loading}</LoadingScreen>);
+      return <LoadingScreen>{loading}</LoadingScreen>;
     }
 
     if (ejected) {
-      return (<MeetingEnded code="403" />);
+      return <MeetingEnded code="403" />;
     }
 
     if ((meetingHasEnded || (User && User.loggedOut)) && meetingIsBreakout) {
@@ -183,20 +192,26 @@ class Base extends Component {
       return null;
     }
 
-    if (((meetingHasEnded && !meetingIsBreakout)) || (codeError && (User && User.loggedOut))) {
-      return (<MeetingEnded code={codeError} />);
+    if (
+      (meetingHasEnded && !meetingIsBreakout) ||
+      (codeError && User && User.loggedOut)
+    ) {
+      return <MeetingEnded code={codeError} />;
     }
 
     if (codeError && !meetingHasEnded) {
       // 680 is set for the codeError when the user requests a logout
       if (codeError !== '680') {
-        logger.error({ logCode: 'startup_client_usercouldnotlogin_error' }, `User could not log in HTML5, hit ${codeError}`);
-        return (<ErrorScreen code={codeError} />);
+        logger.error(
+          { logCode: 'startup_client_usercouldnotlogin_error' },
+          `User could not log in HTML5, hit ${codeError}`
+        );
+        return <ErrorScreen code={codeError} />;
       }
-      return (<MeetingEnded code={codeError} />);
+      return <MeetingEnded code={codeError} />;
     }
 
-    return (<AppContainer {...this.props} baseControls={stateControls} />);
+    return <AppContainer {...this.props} baseControls={stateControls} />;
   }
 
   render() {
@@ -205,14 +220,12 @@ class Base extends Component {
     const stateControls = { updateLoadingState };
     const { meetingExisted } = this.state;
 
-    return (
-      (!meetingExisted && !meetingExist && Auth.loggedIn)
-        ? <LoadingScreen />
-        : (
-          <IntlStartup locale={locale} baseControls={stateControls}>
-            {this.renderByState()}
-          </IntlStartup>
-        )
+    return !meetingExisted && !meetingExist && Auth.loggedIn ? (
+      <LoadingScreen />
+    ) : (
+      <IntlStartup locale={locale} baseControls={stateControls}>
+        {this.renderByState()}
+      </IntlStartup>
     );
   }
 }
@@ -228,11 +241,7 @@ const BaseContainer = withTracker(() => {
     userJoinPushAlerts,
   } = Settings.application;
 
-  const {
-    credentials,
-    loggedIn,
-    userID: localUserId,
-  } = Auth;
+  const { credentials, loggedIn, userID: localUserId } = Auth;
 
   const { meetingId } = credentials;
   let breakoutRoomSubscriptionHandler;
@@ -252,13 +261,19 @@ const BaseContainer = withTracker(() => {
     meetingId: 1,
     userId: 1,
   };
-  const User = Users.findOne({ intId: credentials.requesterUserId }, { fields });
-  const meeting = Meetings.findOne({ meetingId }, {
-    fields: {
-      meetingEnded: 1,
-      meetingProp: 1,
-    },
-  });
+  const User = Users.findOne(
+    { intId: credentials.requesterUserId },
+    { fields }
+  );
+  const meeting = Meetings.findOne(
+    { meetingId },
+    {
+      fields: {
+        meetingEnded: 1,
+        meetingProp: 1,
+      },
+    }
+  );
 
   if (meeting && meeting.meetingEnded) {
     Session.set('codeError', '410');
@@ -277,8 +292,16 @@ const BaseContainer = withTracker(() => {
       // then all but one room is removed. The data here isn't reactive so no need to filter
       // the fields
       const numBreakouts = Breakouts.find().count();
-      if (!AudioService.isUsingAudio() && !breakoutNotified && numBreakouts === 0) {
-        if (meeting && !meeting.meetingEnded && !meeting.meetingProp.isBreakout) {
+      if (
+        !AudioService.isUsingAudio() &&
+        !breakoutNotified &&
+        numBreakouts === 0
+      ) {
+        if (
+          meeting &&
+          !meeting.meetingEnded &&
+          !meeting.meetingProp.isBreakout
+        ) {
           // There's a race condition when reloading a tab where the collection gets cleared
           // out and then refilled. The removal of the old data triggers the notification so
           // instead wait a bit and check to see that records weren't added right after.
@@ -290,7 +313,7 @@ const BaseContainer = withTracker(() => {
                   description="message when the breakout room is ended"
                 />,
                 'info',
-                'rooms',
+                'rooms'
               );
             }
           }, BREAKOUT_END_NOTIFY_DELAY);
@@ -310,7 +333,7 @@ const BaseContainer = withTracker(() => {
               description="Notification for when the recording starts"
             />,
             'success',
-            'record',
+            'record'
           );
         }
 
@@ -321,7 +344,7 @@ const BaseContainer = withTracker(() => {
               description="Notification for when the recording stops"
             />,
             'error',
-            'record',
+            'record'
           );
         }
       }
@@ -331,11 +354,18 @@ const BaseContainer = withTracker(() => {
   if (userJoinAudioAlerts || userJoinPushAlerts) {
     Users.find({}, { fields: { validated: 1, name: 1, userId: 1 } }).observe({
       changed: (newDocument) => {
-        if (newDocument.validated && newDocument.name && newDocument.userId !== localUserId) {
+        if (
+          newDocument.validated &&
+          newDocument.name &&
+          newDocument.userId !== localUserId
+        ) {
           if (userJoinAudioAlerts) {
-            AudioService.playAlertSound(`${Meteor.settings.public.app.cdn
-              + Meteor.settings.public.app.basename}`
-              + '/resources/sounds/userJoin.mp3');
+            AudioService.playAlertSound(
+              `${
+                Meteor.settings.public.app.cdn +
+                Meteor.settings.public.app.basename
+              }` + '/resources/sounds/userJoin.mp3'
+            );
           }
 
           if (userJoinPushAlerts) {
@@ -348,7 +378,7 @@ const BaseContainer = withTracker(() => {
                 }}
               />,
               'info',
-              'user',
+              'user'
             );
           }
         }
@@ -356,9 +386,18 @@ const BaseContainer = withTracker(() => {
     });
   }
 
-  if (getFromUserSettings('bbb_show_participants_on_login', true) && !deviceInfo.type().isPhone) {
+  if (
+    getFromUserSettings('bbb_show_participants_on_login', true) &&
+    !deviceInfo.type().isPhone
+  ) {
     Session.set('openPanel', 'userlist');
-    if (CHAT_ENABLED && getFromUserSettings('bbb_show_public_chat_on_login', !Meteor.settings.public.chat.startClosed)) {
+    if (
+      CHAT_ENABLED &&
+      getFromUserSettings(
+        'bbb_show_public_chat_on_login',
+        !Meteor.settings.public.chat.startClosed
+      )
+    ) {
       Session.set('openPanel', 'chat');
       Session.set('idChatOpen', PUBLIC_CHAT_ID);
     }
