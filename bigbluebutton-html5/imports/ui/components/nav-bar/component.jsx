@@ -1,31 +1,30 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Session } from "meteor/session";
-import cx from "classnames";
-import { withModalMounter } from "/imports/ui/components/modal/service";
-import withShortcutHelper from "/imports/ui/components/shortcut-help/service";
-import getFromUserSettings from "/imports/ui/services/users-settings";
-import { defineMessages, injectIntl } from "react-intl";
-import Icon from "../icon/component";
-import { styles } from "./styles.scss";
-import Button from "../button/component";
-import RecordingIndicator from "./recording-indicator/container";
-import TalkingIndicatorContainer from "/imports/ui/components/nav-bar/talking-indicator/container";
-import SettingsDropdownContainer from "./settings-dropdown/container";
-import CustomRecorder from "./custom-record/component";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Session } from 'meteor/session';
+import cx from 'classnames';
+import { withModalMounter } from '/imports/ui/components/modal/service';
+import withShortcutHelper from '/imports/ui/components/shortcut-help/service';
+import getFromUserSettings from '/imports/ui/services/users-settings';
+import { defineMessages, injectIntl } from 'react-intl';
+import Icon from '../icon/component';
+import { styles } from './styles.scss';
+import Button from '../button/component';
+import RecordingIndicator from './recording-indicator/container';
+import TalkingIndicatorContainer from '/imports/ui/components/nav-bar/talking-indicator/container';
+import SettingsDropdownContainer from './settings-dropdown/container';
 
 const intlMessages = defineMessages({
   toggleUserListLabel: {
-    id: "app.navBar.userListToggleBtnLabel",
-    description: "Toggle button label",
+    id: 'app.navBar.userListToggleBtnLabel',
+    description: 'Toggle button label',
   },
   toggleUserListAria: {
-    id: "app.navBar.toggleUserList.ariaLabel",
-    description: "description of the lists inside the userlist",
+    id: 'app.navBar.toggleUserList.ariaLabel',
+    description: 'description of the lists inside the userlist',
   },
   newMessages: {
-    id: "app.navBar.toggleUserList.newMessages",
-    description: "label for toggleUserList btn when showing red notification",
+    id: 'app.navBar.toggleUserList.newMessages',
+    description: 'label for toggleUserList btn when showing red notification',
   },
 });
 
@@ -36,15 +35,15 @@ const propTypes = {
 };
 
 const defaultProps = {
-  presentationTitle: "Default Room Title",
+  presentationTitle: 'Default Room Title',
   hasUnreadMessages: false,
-  shortcuts: "",
+  shortcuts: '',
 };
 
 class NavBar extends PureComponent {
   static handleToggleUserList() {
-    Session.set("openPanel", Session.get("openPanel") !== "" ? "" : "userlist");
-    Session.set("idChatOpen", "");
+    Session.set('openPanel', Session.get('openPanel') !== '' ? '' : 'userlist');
+    Session.set('idChatOpen', '');
   }
 
   componentDidMount() {
@@ -55,10 +54,10 @@ class NavBar extends PureComponent {
 
     if (
       Meteor.settings.public.allowOutsideCommands.toggleRecording ||
-      getFromUserSettings("bbb_outside_toggle_recording", false)
+      getFromUserSettings('bbb_outside_toggle_recording', false)
     ) {
       connectRecordingObserver();
-      window.addEventListener("message", processOutsideToggleRecording);
+      window.addEventListener('message', processOutsideToggleRecording);
     }
   }
 
@@ -85,7 +84,7 @@ class NavBar extends PureComponent {
     let ariaLabel = intl.formatMessage(intlMessages.toggleUserListAria);
     ariaLabel += hasUnreadMessages
       ? ` ${intl.formatMessage(intlMessages.newMessages)}`
-      : "";
+      : '';
 
     return (
       <div className={styles.navbar}>
@@ -118,7 +117,6 @@ class NavBar extends PureComponent {
               mountModal={mountModal}
               amIModerator={amIModerator}
             />
-            {/* <CustomRecorder meetingId={meetingId} /> */}
           </div>
           <div className={styles.right}>
             <SettingsDropdownContainer amIModerator={amIModerator} />
@@ -136,5 +134,5 @@ NavBar.propTypes = propTypes;
 NavBar.defaultProps = defaultProps;
 export default withShortcutHelper(
   withModalMounter(injectIntl(NavBar)),
-  "toggleUserList"
+  'toggleUserList'
 );
