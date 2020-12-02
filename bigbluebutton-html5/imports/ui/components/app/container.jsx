@@ -1,30 +1,30 @@
-import React from "react";
-import { withTracker } from "meteor/react-meteor-data";
-import { defineMessages, injectIntl } from "react-intl";
-import PropTypes from "prop-types";
-import Auth from "/imports/ui/services/auth";
-import Users from "/imports/api/users";
-import Meetings from "/imports/api/meetings";
-import { notify } from "/imports/ui/services/notification";
-import CaptionsContainer from "/imports/ui/components/captions/container";
-import CaptionsService from "/imports/ui/components/captions/service";
-import getFromUserSettings from "/imports/ui/services/users-settings";
-import deviceInfo from "/imports/utils/deviceInfo";
-import UserInfos from "/imports/api/users-infos";
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import { defineMessages, injectIntl } from 'react-intl';
+import PropTypes from 'prop-types';
+import Auth from '/imports/ui/services/auth';
+import Users from '/imports/api/users';
+import Meetings from '/imports/api/meetings';
+import { notify } from '/imports/ui/services/notification';
+import CaptionsContainer from '/imports/ui/components/captions/container';
+import CaptionsService from '/imports/ui/components/captions/service';
+import getFromUserSettings from '/imports/ui/services/users-settings';
+import deviceInfo from '/imports/utils/deviceInfo';
+import UserInfos from '/imports/api/users-infos';
 import {
   startBandwidthMonitoring,
   updateNavigatorConnection,
-} from "/imports/ui/services/network-information/index";
-import logger from "/imports/startup/client/logger";
+} from '/imports/ui/services/network-information/index';
+import logger from '/imports/startup/client/logger';
 
-import { getFontSize, getBreakoutRooms, validIOSVersion } from "./service";
+import { getFontSize, getBreakoutRooms, validIOSVersion } from './service';
 
-import { withModalMounter } from "../modal/service";
+import { withModalMounter } from '../modal/service';
 
-import App from "./component";
-import NavBarContainer from "../nav-bar/container";
-import ActionsBarContainer from "../actions-bar/container";
-import MediaContainer from "../media/container";
+import App from './component';
+import NavBarContainer from '../nav-bar/container';
+import ActionsBarContainer from '../actions-bar/container';
+import MediaContainer from '../media/container';
 // import CustomCaptionProvider from "../custom-context/CaptionContext";
 // import CustomSpeechToTextCaption from "../captions/speech-to-text/index";
 
@@ -42,14 +42,14 @@ const defaultProps = {
 
 const intlMessages = defineMessages({
   waitingApprovalMessage: {
-    id: "app.guest.waiting",
-    description: "Message while a guest is waiting to be approved",
+    id: 'app.guest.waiting',
+    description: 'Message while a guest is waiting to be approved',
   },
 });
 
 const endMeeting = (code) => {
-  Session.set("codeError", code);
-  Session.set("isMeetingEnded", true);
+  Session.set('codeError', code);
+  Session.set('isMeetingEnded', true);
 };
 
 const AppContainer = (props) => {
@@ -72,7 +72,7 @@ const currentUserEmoji = (currentUser) =>
         changedAt: currentUser.emojiTime,
       }
     : {
-        status: "none",
+        status: 'none',
         changedAt: null,
       };
 
@@ -102,25 +102,25 @@ export default injectIntl(
       ).observeChanges({
         changed(id, fields) {
           const hasNewConnection =
-            "connectionId" in fields &&
+            'connectionId' in fields &&
             fields.connectionId !== Meteor.connection._lastSessionId;
 
           if (hasNewConnection) {
             logger.info(
               {
-                logCode: "user_connection_id_changed",
+                logCode: 'user_connection_id_changed',
                 extraInfo: {
                   currentConnectionId: fields.connectionId,
                   previousConnectionId: Meteor.connection._lastSessionId,
                 },
               },
-              "User connectionId changed "
+              'User connectionId changed '
             );
-            endMeeting("401");
+            endMeeting('401');
           }
 
           if (fields.ejected) {
-            endMeeting("403");
+            endMeeting('403');
           }
         },
       });
@@ -133,19 +133,17 @@ export default injectIntl(
       return {
         captions: CaptionsService.isCaptionsActive() ? (
           <CaptionsContainer />
-        ) : (
-          <CaptionsContainer />
-        ),
+        ) : null,
         fontSize: getFontSize(),
         hasBreakoutRooms: getBreakoutRooms().length > 0,
-        customStyle: getFromUserSettings("bbb_custom_style", false),
-        customStyleUrl: getFromUserSettings("bbb_custom_style_url", false),
-        openPanel: Session.get("openPanel"),
+        customStyle: getFromUserSettings('bbb_custom_style', false),
+        customStyleUrl: getFromUserSettings('bbb_custom_style_url', false),
+        openPanel: Session.get('openPanel'),
         UserInfo,
         notify,
         validIOSVersion,
         isPhone: deviceInfo.type().isPhone,
-        isRTL: document.documentElement.getAttribute("dir") === "rtl",
+        isRTL: document.documentElement.getAttribute('dir') === 'rtl',
         meetingMuted: voiceProp.muteOnStart,
         currentUserEmoji: currentUserEmoji(currentUser),
         hasPublishedPoll: publishedPoll,

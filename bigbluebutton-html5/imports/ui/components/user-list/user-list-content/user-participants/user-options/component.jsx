@@ -134,8 +134,11 @@ class UserOptions extends PureComponent {
 
     this.onActionsShow = this.onActionsShow.bind(this);
     this.onActionsHide = this.onActionsHide.bind(this);
-    this.handleCreateBreakoutRoomClick = this.handleCreateBreakoutRoomClick.bind(this);
+    this.handleCreateBreakoutRoomClick = this.handleCreateBreakoutRoomClick.bind(
+      this
+    );
     this.handleCaptionsClick = this.handleCaptionsClick.bind(this);
+    this.handleCaptionsClicktwo = this.handleCaptionsClicktwo.bind(this);
     this.onCreateBreakouts = this.onCreateBreakouts.bind(this);
     this.onInvitationUsers = this.onInvitationUsers.bind(this);
     this.renderMenuItems = this.renderMenuItems.bind(this);
@@ -146,19 +149,17 @@ class UserOptions extends PureComponent {
     const { intl, meetingName } = this.props;
     const date = new Date();
     getUserNamesLink(
-      intl.formatMessage(intlMessages.savedNamesListTitle,
-        {
-          0: meetingName,
-          1: `${date.toLocaleDateString(
-            document.documentElement.lang,
-          )}:${date.toLocaleTimeString(
-            document.documentElement.lang,
-          )}`,
-        }),
+      intl.formatMessage(intlMessages.savedNamesListTitle, {
+        0: meetingName,
+        1: `${date.toLocaleDateString(
+          document.documentElement.lang
+        )}:${date.toLocaleTimeString(document.documentElement.lang)}`,
+      }),
       intl.formatMessage(intlMessages.sortedFirstNameHeading),
-      intl.formatMessage(intlMessages.sortedLastNameHeading),
-    ).dispatchEvent(new MouseEvent('click',
-      { bubbles: true, cancelable: true, view: window }));
+      intl.formatMessage(intlMessages.sortedLastNameHeading)
+    ).dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true, view: window })
+    );
   }
 
   onActionsShow() {
@@ -182,10 +183,7 @@ class UserOptions extends PureComponent {
   }
 
   handleCreateBreakoutRoomClick(isInvitation) {
-    const {
-      mountModal,
-      isBreakoutRecordable,
-    } = this.props;
+    const { mountModal, isBreakoutRecordable } = this.props;
 
     return mountModal(
       <BreakoutRoom
@@ -193,13 +191,19 @@ class UserOptions extends PureComponent {
           isBreakoutRecordable,
           isInvitation,
         }}
-      />,
+      />
     );
   }
 
   handleCaptionsClick() {
     const { mountModal } = this.props;
     mountModal(<CaptionsWriterMenu />);
+  }
+
+  handleCaptionsClicktwo() {
+    const { mountModal } = this.props;
+    // mountModal(<CaptionsWriterMenu />);
+    console.log('Second caption cliecked.');
   }
 
   renderMenuItems() {
@@ -219,92 +223,112 @@ class UserOptions extends PureComponent {
       isMeteorConnected,
     } = this.props;
 
-    const canCreateBreakout = amIModerator
-      && !meetingIsBreakout
-      && !hasBreakoutRoom
-      && isBreakoutEnabled;
+    const canCreateBreakout =
+      amIModerator &&
+      !meetingIsBreakout &&
+      !hasBreakoutRoom &&
+      isBreakoutEnabled;
 
-    const canInviteUsers = amIModerator
-      && !meetingIsBreakout
-      && hasBreakoutRoom
-      && getUsersNotAssigned(users).length;
+    const canInviteUsers =
+      amIModerator &&
+      !meetingIsBreakout &&
+      hasBreakoutRoom &&
+      getUsersNotAssigned(users).length;
 
     this.menuItems = _.compact([
-      (isMeteorConnected ? (
+      isMeteorConnected ? (
         <DropdownListItem
           key={this.clearStatusId}
           icon="clear_status"
           label={intl.formatMessage(intlMessages.clearAllLabel)}
           description={intl.formatMessage(intlMessages.clearAllDesc)}
           onClick={toggleStatus}
-        />) : null
-      ),
-      (!meetingIsBreakout && isMeteorConnected ? (
+        />
+      ) : null,
+      !meetingIsBreakout && isMeteorConnected ? (
         <DropdownListItem
           key={this.muteAllId}
           icon={isMeetingMuted ? 'unmute' : 'mute'}
-          label={intl.formatMessage(intlMessages[isMeetingMuted ? 'unmuteAllLabel' : 'muteAllLabel'])}
-          description={intl.formatMessage(intlMessages[isMeetingMuted ? 'unmuteAllDesc' : 'muteAllDesc'])}
+          label={intl.formatMessage(
+            intlMessages[isMeetingMuted ? 'unmuteAllLabel' : 'muteAllLabel']
+          )}
+          description={intl.formatMessage(
+            intlMessages[isMeetingMuted ? 'unmuteAllDesc' : 'muteAllDesc']
+          )}
           onClick={toggleMuteAllUsers}
-        />) : null
-      ),
-      (!meetingIsBreakout && !isMeetingMuted && isMeteorConnected ? (
+        />
+      ) : null,
+      !meetingIsBreakout && !isMeetingMuted && isMeteorConnected ? (
         <DropdownListItem
           key={this.muteId}
           icon="mute"
           label={intl.formatMessage(intlMessages.muteAllExceptPresenterLabel)}
-          description={intl.formatMessage(intlMessages.muteAllExceptPresenterDesc)}
+          description={intl.formatMessage(
+            intlMessages.muteAllExceptPresenterDesc
+          )}
           onClick={toggleMuteAllUsersExceptPresenter}
-        />) : null
-      ),
-      (amIModerator
-        ? (
-          <DropdownListItem
-            icon="download"
-            label={intl.formatMessage(intlMessages.saveUserNames)}
-            key={this.saveUsersNameId}
-            onClick={this.onSaveUserNames}
-          />)
-        : null
-      ),
-      (!meetingIsBreakout && isMeteorConnected ? (
+        />
+      ) : null,
+      amIModerator ? (
+        <DropdownListItem
+          icon="download"
+          label={intl.formatMessage(intlMessages.saveUserNames)}
+          key={this.saveUsersNameId}
+          onClick={this.onSaveUserNames}
+        />
+      ) : null,
+      !meetingIsBreakout && isMeteorConnected ? (
         <DropdownListItem
           key={this.lockId}
           icon="lock"
           label={intl.formatMessage(intlMessages.lockViewersLabel)}
           description={intl.formatMessage(intlMessages.lockViewersDesc)}
           onClick={() => mountModal(<LockViewersContainer />)}
-        />) : null
-      ),
-      (isMeteorConnected ? <DropdownListSeparator key={_.uniqueId('list-separator-')} /> : null),
-      (canCreateBreakout && isMeteorConnected ? (
+        />
+      ) : null,
+      isMeteorConnected ? (
+        <DropdownListSeparator key={_.uniqueId('list-separator-')} />
+      ) : null,
+      canCreateBreakout && isMeteorConnected ? (
         <DropdownListItem
           key={this.createBreakoutId}
           icon="rooms"
           label={intl.formatMessage(intlMessages.createBreakoutRoom)}
           description={intl.formatMessage(intlMessages.createBreakoutRoomDesc)}
           onClick={this.onCreateBreakouts}
-        />) : null
-      ),
-      (canInviteUsers && isMeteorConnected ? (
+        />
+      ) : null,
+      canInviteUsers && isMeteorConnected ? (
         <DropdownListItem
           icon="rooms"
           label={intl.formatMessage(intlMessages.invitationItem)}
           key={this.createBreakoutId}
           onClick={this.onInvitationUsers}
-        />) : null
-      ),
-      (amIModerator && CaptionsService.isCaptionsEnabled() && isMeteorConnected
-        ? (
-          <DropdownListItem
-            icon="closed_caption"
-            label={intl.formatMessage(intlMessages.captionsLabel)}
-            description={intl.formatMessage(intlMessages.captionsDesc)}
-            key={this.captionsId}
-            onClick={this.handleCaptionsClick}
-          />
-        )
-        : null),
+        />
+      ) : null,
+      amIModerator &&
+      CaptionsService.isCaptionsEnabled() &&
+      isMeteorConnected ? (
+        <DropdownListItem
+          icon="closed_caption"
+          label={intl.formatMessage(intlMessages.captionsLabel)}
+          description={intl.formatMessage(intlMessages.captionsDesc)}
+          key={this.captionsId}
+          onClick={this.handleCaptionsClick}
+        />
+      ) : null,
+      // * Added Bew Caption button.
+      amIModerator &&
+      CaptionsService.isCaptionsEnabled() &&
+      isMeteorConnected ? (
+        <DropdownListItem
+          icon="closed_caption"
+          label={intl.formatMessage(intlMessages.captionsLabel)}
+          description={intl.formatMessage(intlMessages.captionsDesc)}
+          key={this.captionsId}
+          onClick={this.handleCaptionsClicktwo}
+        />
+      ) : null,
     ]);
 
     return this.menuItems;
@@ -316,7 +340,9 @@ class UserOptions extends PureComponent {
 
     return (
       <Dropdown
-        ref={(ref) => { this.dropdown = ref; }}
+        ref={(ref) => {
+          this.dropdown = ref;
+        }}
         autoFocus={false}
         isOpen={isUserOptionsOpen}
         onShow={this.onActionsShow}
@@ -339,11 +365,7 @@ class UserOptions extends PureComponent {
           className={styles.dropdownContent}
           placement="right top"
         >
-          <DropdownList>
-            {
-              this.renderMenuItems()
-            }
-          </DropdownList>
+          <DropdownList>{this.renderMenuItems()}</DropdownList>
         </DropdownContent>
       </Dropdown>
     );
